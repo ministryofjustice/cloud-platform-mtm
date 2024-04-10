@@ -13,7 +13,7 @@ def main(
     module: Annotated[str, typer.Option] = None,
     core_tfstate: Annotated[Optional[Path], typer.Option()] = None,
     components_tfstate: Annotated[Optional[Path], typer.Option()] = None,
-    dryrun: Annotated[bool, typer.Option(help="dry run.")] = False,
+    #dryrun: Annotated[bool, typer.Option(help="dry run.")] = False,
 ):
     coreCheck = checkFile(core_tfstate, "tfstate")
     componentsCheck = checkFile(components_tfstate, "tfstate")

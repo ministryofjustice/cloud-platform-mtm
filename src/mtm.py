@@ -10,7 +10,7 @@ import re
 from typing_extensions import Annotated
 
 def main(
-    migrate: Annotated[str, typer.Option] = None,
+    module: Annotated[str, typer.Option] = None,
     core_tfstate: Annotated[Optional[Path], typer.Option()] = None,
     components_tfstate: Annotated[Optional[Path], typer.Option()] = None,
     dryrun: Annotated[bool, typer.Option(help="dry run.")] = False,
@@ -19,7 +19,7 @@ def main(
     componentsCheck = checkFile(components_tfstate, "tfstate")
 
     if coreCheck == componentsCheck == True:
-        migrateResources(migrate, core_tfstate, components_tfstate)
+        migrateResources(module, core_tfstate, components_tfstate)
 
 def checkFile(file, type: str):
     if file is None:

@@ -55,8 +55,6 @@ def getModuleState(module: str, path):
     with open(path) as f:
         coreState = json.load(f)
 
-        i = 0
-
         core_resources = []
 
         # @TODO refactor, we don't need regex here
@@ -65,7 +63,6 @@ def getModuleState(module: str, path):
             if "module" in resource:
                 if re.match(regex, resource['module']):
                     core_resources.append(resource)
-                    i += 1
 
         return core_resources
 

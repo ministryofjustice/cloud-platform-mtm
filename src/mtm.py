@@ -10,16 +10,16 @@ import re
 from typing_extensions import Annotated
 
 def main(
-    module: Annotated[str, typer.Option] = None,
-    core_tfstate: Annotated[Optional[Path], typer.Option()] = None,
-    components_tfstate: Annotated[Optional[Path], typer.Option()] = None,
+    module: Annotated[str, typer.Option(help="Name of the module to migrate")] = None,
+    destinationState: Annotated[Optional[Path], typer.Option(help="Path to the destination tfstate file")] = None,
+    sourceState: Annotated[Optional[Path], typer.Option(help="Path to the source tfstate file")] = None,
     #dryrun: Annotated[bool, typer.Option(help="dry run.")] = False,
 ):
-    coreCheck = checkFile(core_tfstate, "tfstate")
-    componentsCheck = checkFile(components_tfstate, "tfstate")
+    coreCheck = checkFile(destinationState, "tfstate")
+    componentsCheck = checkFile(sourceState, "tfstate")
 
     if coreCheck == componentsCheck == True:
-        migrateResources(module, core_tfstate, components_tfstate)
+        migrateResources(module, destinationState, sourceState)
 
 def checkFile(file, type: str):
     if file is None:
@@ -33,13 +33,13 @@ def checkFile(file, type: str):
     elif not file.exists():
         print("The file doesn't exist")
 
-def migrateResources(module: str, core_tfstate, components_tfstate):
-    moduleState = getModuleState(module, components_tfstate)
+def migrateResources(module: str, destinationState, sourceState):
+    moduleState = getModuleState(module, sourceState)
 
-    coreState = mergeModuleState(core_tfstate, moduleState, module)
+    coreState = mergeModuleState(destinationState, moduleState, module)
     saveState("core", coreState)
 
-    componentsState = deleteModuleState(components_tfstate, module)
+    componentsState = deleteModuleState(sourceState, module)
     saveState("components", componentsState)
 
 def saveState(module: str, state):
@@ -69,9 +69,9 @@ def getModuleState(module: str, path):
 
         return core_resources
 
-def mergeModuleState(core_tfstate, addState: list, module: str):
+def mergeModuleState(destinationState, addState: list, module: str):
     print(f"Merging {module} resources into core.tfstate")
-    with open(core_tfstate) as f:
+    with open(destinationState) as f:
         coreState = json.load(f)
         coreResources = coreState["resources"] + addState
 
@@ -81,9 +81,9 @@ def mergeModuleState(core_tfstate, addState: list, module: str):
 
         return(json.dumps(coreState, indent=2))
 
-def deleteModuleState(components_tfstate, module: str):
+def deleteModuleState(sourceState, module: str):
     print(f"Removing {module} resource from components.tfstate")
-    with open(components_tfstate) as f:
+    with open(sourceState) as f:
         componentsState = json.load(f)
         moduleName = "module." + module
 

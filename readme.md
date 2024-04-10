@@ -2,6 +2,8 @@
 
 A Python script to move terraform modules between two state files.
 
+> WARNING: Here me dragons. Moving terraform state like this is not advised!
+
 ## Setup
 
 ```

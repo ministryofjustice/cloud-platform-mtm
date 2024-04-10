@@ -85,12 +85,13 @@ def deleteModuleState(components_tfstate, module: str):
     print(f"Removing {module} resource from components.tfstate")
     with open(components_tfstate) as f:
         componentsState = json.load(f)
+        moduleName = "module." + module
 
         newResource = []
 
         for resource in componentsState['resources']:
             if "module" in resource:
-                if "module.gatekeeper" not in resource['module']:
+                if moduleName not in resource['module']:
                     dededResource = removeDependencies(resource, module)
                     newResource.append(dededResource)
             else:

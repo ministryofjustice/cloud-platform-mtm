@@ -31,7 +31,7 @@ def checkFile(file, type: str):
         print("Path is a directory")
         raise typer.Abort()
     elif not file.exists():
-        print("The migrate file doesn't exist")
+        print("The file doesn't exist")
 
 def migrateResources(module: str, core_tfstate, components_tfstate):
     moduleState = getModuleState(module, components_tfstate)

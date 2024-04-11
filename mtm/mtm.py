@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from typing import Optional
+from utilities import save
 
 import typer
 import json
@@ -37,18 +38,10 @@ def migrateResources(module: str, destinationState, sourceState):
     moduleState = getModuleState(sourceState, moduleName)
 
     coreState = mergeModuleState(destinationState, moduleState, module)
-    saveState("core", coreState)
+    save.saveState("core", coreState)
 
     componentsState = deleteModuleState(sourceState, moduleName)
-    saveState("components", componentsState)
-
-def saveState(module: str, state):
-    print(f"Saving new state file - {module}New.tfstate")
-
-    fileName = module + "New.tfstate"
-
-    with open(fileName, "w") as text_file:
-        text_file.write(state)
+    save.saveState("components", componentsState)
 
 def getModuleState(path, moduleName: str):
     print(f"Getting {moduleName} resources from components.tfstate")

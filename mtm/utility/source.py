@@ -1,27 +1,35 @@
 import json
 
-def getModuleState(path, moduleName: str):
-    print(f"Getting {moduleName} resources from components.tfstate")
-    with open(path) as f:
-        coreState = json.load(f)
+def deleteModuleState(sourceState, moduleName: str):
+    print(f"Removing {moduleName} resource from components.tfstate")
+    with open(sourceState) as f:
+        componentsState = json.load(f)
 
-        core_resources = []
+        newResource = []
 
-        for resource in coreState["resources"]:
+        for resource in componentsState['resources']:
             if "module" in resource:
-                if moduleName in resource['module']:
-                    core_resources.append(resource)
+                if moduleName not in resource['module']:
+                    dependencyRemovedResource = removeDependencies(resource, moduleName)
+                    newResource.append(dependencyRemovedResource)
+            else:
+                # Ensure we capture all resources that aren't modules
+                newResource.append(resource)
 
-        return core_resources
+        componentsState.pop("resources")
 
-def mergeModuleState(destinationState, addState: list, module: str):
-    print(f"Merging {module} resources into core.tfstate")
-    with open(destinationState) as f:
-        coreState = json.load(f)
-        coreResources = coreState["resources"] + addState
+        componentsState["resources"] = newResource
 
-        coreState.pop("resources")
+        return(json.dumps(componentsState, indent=2))
 
-        coreState["resources"] = coreResources
+def removeDependencies(resource, moduleName: str):
+    for instances in resource:
+        if "instances" in instances:
+            for instance in resource['instances']:
+                if "dependencies" in instance:
+                    if any(moduleName in s for s in instance['dependencies']):
+                        newDep = [x for x in instance['dependencies'] if moduleName not in x]
+                        instance.pop("dependencies")
+                        instance["dependencies"] = newDep
 
-        return(json.dumps(coreState, indent=2))
+    return(resource)

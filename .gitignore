@@ -1,3 +1,4 @@
 venv
 *.tfstate
 *.json
+**/__pycache__

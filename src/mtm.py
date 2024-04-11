@@ -5,7 +5,6 @@ from typing import Optional
 
 import typer
 import json
-import re
 
 from typing_extensions import Annotated
 
@@ -55,13 +54,12 @@ def getModuleState(module: str, path):
     with open(path) as f:
         coreState = json.load(f)
 
+        moduleName = "module." + module
         core_resources = []
 
-        # @TODO refactor, we don't need regex here
-        regex = r"module." + module + r".*"
         for resource in coreState["resources"]:
             if "module" in resource:
-                if re.match(regex, resource['module']):
+                if moduleName in resource['module']:
                     core_resources.append(resource)
 
         return core_resources

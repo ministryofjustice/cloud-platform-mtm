@@ -11,3 +11,11 @@ def checkFile(file, type: str):
         raise typer.Abort()
     elif not file.exists():
         print("The file doesn't exist")
+
+def saveState(module: str, state):
+    print(f"Saving new state file - {module}New.tfstate")
+
+    fileName = module + "New.tfstate"
+
+    with open(fileName, "w") as text_file:
+        text_file.write(state)

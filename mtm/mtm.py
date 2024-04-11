@@ -7,9 +7,7 @@ import typer
 import json
 
 from typing_extensions import Annotated
-
-import utilities.check
-import utilities.save
+from utility import utility
 
 def main(
     module: Annotated[str, typer.Option(help="Name of the module to migrate")] = None,
@@ -17,8 +15,8 @@ def main(
     sourceState: Annotated[Optional[Path], typer.Option(help="Path to the source tfstate file")] = None,
     #dryrun: Annotated[bool, typer.Option(help="dry run.")] = False,
 ):
-    coreCheck = utilities.check.checkFile(destinationState, "tfstate")
-    componentsCheck = utilities.check.checkFile(sourceState, "tfstate")
+    coreCheck = utility.checkFile(destinationState, "tfstate")
+    componentsCheck = utility.checkFile(sourceState, "tfstate")
 
     if coreCheck == componentsCheck == True:
         migrateResources(module, destinationState, sourceState)
@@ -28,10 +26,10 @@ def migrateResources(module: str, destinationState, sourceState):
     moduleState = getModuleState(sourceState, moduleName)
 
     coreState = mergeModuleState(destinationState, moduleState, module)
-    utilities.save.saveState("core", coreState)
+    utility.saveState("core", coreState)
 
     componentsState = deleteModuleState(sourceState, moduleName)
-    utilities.save.saveState("components", componentsState)
+    utility.saveState("components", componentsState)
 
 def getModuleState(path, moduleName: str):
     print(f"Getting {moduleName} resources from components.tfstate")

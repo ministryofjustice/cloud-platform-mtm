@@ -33,12 +33,13 @@ def checkFile(file, type: str):
         print("The file doesn't exist")
 
 def migrateResources(module: str, destinationState, sourceState):
-    moduleState = getModuleState(module, sourceState)
+    moduleName = "module." + module
+    moduleState = getModuleState(sourceState, moduleName)
 
     coreState = mergeModuleState(destinationState, moduleState, module)
     saveState("core", coreState)
 
-    componentsState = deleteModuleState(sourceState, module)
+    componentsState = deleteModuleState(sourceState, moduleName)
     saveState("components", componentsState)
 
 def saveState(module: str, state):
@@ -49,12 +50,11 @@ def saveState(module: str, state):
     with open(fileName, "w") as text_file:
         text_file.write(state)
 
-def getModuleState(module: str, path):
-    print(f"Getting {module} resources from components.tfstate")
+def getModuleState(path, moduleName: str):
+    print(f"Getting {moduleName} resources from components.tfstate")
     with open(path) as f:
         coreState = json.load(f)
 
-        moduleName = "module." + module
         core_resources = []
 
         for resource in coreState["resources"]:
@@ -76,18 +76,17 @@ def mergeModuleState(destinationState, addState: list, module: str):
 
         return(json.dumps(coreState, indent=2))
 
-def deleteModuleState(sourceState, module: str):
-    print(f"Removing {module} resource from components.tfstate")
+def deleteModuleState(sourceState, moduleName: str):
+    print(f"Removing {moduleName} resource from components.tfstate")
     with open(sourceState) as f:
         componentsState = json.load(f)
-        moduleName = "module." + module
 
         newResource = []
 
         for resource in componentsState['resources']:
             if "module" in resource:
                 if moduleName not in resource['module']:
-                    dededResource = removeDependencies(resource, module)
+                    dededResource = removeDependencies(resource, moduleName)
                     newResource.append(dededResource)
             else:
                 # Ensure we capture all resources that aren't modules
@@ -99,9 +98,7 @@ def deleteModuleState(sourceState, module: str):
 
         return(json.dumps(componentsState, indent=2))
 
-def removeDependencies(resource, module: str):
-    moduleName = "module." + module
-
+def removeDependencies(resource, moduleName: str):
     for instances in resource:
         if "instances" in instances:
             for instance in resource['instances']:

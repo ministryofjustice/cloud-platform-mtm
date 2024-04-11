@@ -14,21 +14,21 @@ def main(
     sourceState: Annotated[Optional[Path], typer.Option(help="Path to the source tfstate file")] = None,
     #dryrun: Annotated[bool, typer.Option(help="dry run.")] = False,
 ):
-    coreCheck = utility.checkFile(destinationState, "tfstate")
-    componentsCheck = utility.checkFile(sourceState, "tfstate")
+    destinationCheck = utility.checkFile(destinationState, "tfstate")
+    sourceCheck = utility.checkFile(sourceState, "tfstate")
 
-    if coreCheck == componentsCheck == True:
+    if destinationCheck == sourceCheck == True:
         migrateResources(module, destinationState, sourceState)
 
 def migrateResources(module: str, destinationState, sourceState):
     moduleName = "module." + module
-    moduleState = source.getModuleState(sourceState, moduleName)
+    moduleState = destination.getModuleState(sourceState, moduleName)
 
-    coreState = source.mergeModuleState(destinationState, moduleState, module)
-    utility.saveState("core", coreState)
+    destinationNewState = destination.mergeModuleState(destinationState, moduleState, module)
+    utility.saveState("core", destinationNewState)
 
-    componentsState = destination.deleteModuleState(sourceState, moduleName)
-    utility.saveState("components", componentsState)
+    sourceNewState = source.deleteModuleState(sourceState, moduleName)
+    utility.saveState("components", sourceNewState)
 
 if __name__ == "__main__":
     typer.run(main)

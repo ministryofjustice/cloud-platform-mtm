@@ -2,12 +2,14 @@
 
 from pathlib import Path
 from typing import Optional
-from utilities import save
 
 import typer
 import json
 
 from typing_extensions import Annotated
+
+import utilities.check
+import utilities.save
 
 def main(
     module: Annotated[str, typer.Option(help="Name of the module to migrate")] = None,
@@ -15,33 +17,21 @@ def main(
     sourceState: Annotated[Optional[Path], typer.Option(help="Path to the source tfstate file")] = None,
     #dryrun: Annotated[bool, typer.Option(help="dry run.")] = False,
 ):
-    coreCheck = checkFile(destinationState, "tfstate")
-    componentsCheck = checkFile(sourceState, "tfstate")
+    coreCheck = utilities.check.checkFile(destinationState, "tfstate")
+    componentsCheck = utilities.check.checkFile(sourceState, "tfstate")
 
     if coreCheck == componentsCheck == True:
         migrateResources(module, destinationState, sourceState)
-
-def checkFile(file, type: str):
-    if file is None:
-        print(f"No {type} file")
-        raise typer.Abort()
-    if file.is_file():
-        return True
-    elif file.is_dir():
-        print("Path is a directory")
-        raise typer.Abort()
-    elif not file.exists():
-        print("The file doesn't exist")
 
 def migrateResources(module: str, destinationState, sourceState):
     moduleName = "module." + module
     moduleState = getModuleState(sourceState, moduleName)
 
     coreState = mergeModuleState(destinationState, moduleState, module)
-    save.saveState("core", coreState)
+    utilities.save.saveState("core", coreState)
 
     componentsState = deleteModuleState(sourceState, moduleName)
-    save.saveState("components", componentsState)
+    utilities.save.saveState("components", componentsState)
 
 def getModuleState(path, moduleName: str):
     print(f"Getting {moduleName} resources from components.tfstate")

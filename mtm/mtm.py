@@ -67,8 +67,8 @@ def deleteModuleState(sourceState, moduleName: str):
         for resource in componentsState['resources']:
             if "module" in resource:
                 if moduleName not in resource['module']:
-                    dededResource = removeDependencies(resource, moduleName)
-                    newResource.append(dededResource)
+                    dependencyRemovedResource = removeDependencies(resource, moduleName)
+                    newResource.append(dependencyRemovedResource)
             else:
                 # Ensure we capture all resources that aren't modules
                 newResource.append(resource)

@@ -4,17 +4,25 @@ A Python script to move terraform modules between two state files.
 
 > WARNING: Here be dragons. Moving terraform state like this is not advised!
 
-## Setup
+## Requirements
+
+* [pipx](https://github.com/pypa/pipx)
+* [poetry](https://python-poetry.org/docs/#installation)
+
+## Development
 
 ```
-python3 -m venv venv
-source venv/bin/activate
-pip3 install -r requirements.txt
+@TODO
 ```
+
+## Install
+
+Grab the wheel from releases and:
+
+`pip install --user package.whl`
 
 ## Running
 
 ```
-cd src
-./mtm.py --help
+mtm --help
 ```

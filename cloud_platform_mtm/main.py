@@ -2,7 +2,7 @@ import typer
 
 from typing_extensions import Annotated
 from pathlib import Path
-from utility import utility, source, destination
+from cloud_platform_mtm.utility import utility, source, destination
 
 
 app = typer.Typer()

@@ -9,10 +9,12 @@ A Python script to move terraform modules between two state files.
 * [pipx](https://github.com/pypa/pipx)
 * [poetry](https://python-poetry.org/docs/#installation)
 
+We use `pipx` to install `poetry` which then manages the packages dependencies.
+
 ## Development
 
 ```
-@TODO
+poetry install
 ```
 
 ## Install

@@ -17,6 +17,8 @@ We use `pipx` to install `poetry` which then manages the packages dependencies.
 poetry install
 ```
 
+Commits should follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard. When branches are merged a release PR is either created or updated with relevant commit history. Merging this PR in will create a new release.
+
 ## Install
 
 Grab the wheel from releases and:

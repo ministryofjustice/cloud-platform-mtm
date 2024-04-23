@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cloud-platform-mtm"
-version = "1.0.3"
+version = "1.0.4"
 description = ""
 authors = ["Mike Bell <mike.bell1@digital.justice.gov.uk>"]
 readme = "README.md"
@@ -11,7 +11,6 @@ mtm = "cloud_platform_mtm.main:app"
 [tool.poetry.dependencies]
 python = "^3.10"
 typer = {extras = ["all"], version = "^0.12.3"}
-
 
 [build-system]
 requires = ["poetry-core"]

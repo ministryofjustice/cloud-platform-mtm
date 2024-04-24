@@ -2,7 +2,7 @@ import typer
 
 from typing_extensions import Annotated
 from pathlib import Path
-from cloud_platform_mtm.utility import utility, migrateModule
+from cloud_platform_mtm.utility import utility, migrateModule, migrateResource
 
 
 app = typer.Typer()
@@ -27,6 +27,18 @@ def migrate_module(
 
     if destinationCheck == sourceCheck == True:
         migrateModule.migrateResources(module, destination_path, source_path)
+
+@app.command()
+def migrate_resource(
+    resource: Annotated[str, typer.Argument(help="Resource to migrate")],
+    # source_path: Annotated[Path, typer.Argument(help="Path to source tfstate file")],
+    # destination_path: Annotated[Path, typer.Argument(help="Path to destination tfstate file")]
+    ):
+    """
+    Migrate terraform resources
+    """
+    if (migrateResource.validateResourceName(resource)):
+        print("something")
 
 if __name__ == "__main__":
     app()

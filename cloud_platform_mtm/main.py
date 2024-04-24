@@ -14,7 +14,7 @@ def callback():
     """
 
 @app.command()
-def migrate(
+def migrate_module(
     module: Annotated[str, typer.Argument(help="Module to migrate")],
     source_path: Annotated[Path, typer.Argument(help="Path to source tfstate file")],
     destination_path: Annotated[Path, typer.Argument(help="Path to destination tfstate file")]

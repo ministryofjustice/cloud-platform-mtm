@@ -1,6 +1,6 @@
 from cloud_platform_mtm.utility import destination, source, utility
 
-def migrateResources(module: str, destinationState, sourceState):
+def migrateModuleResources(module: str, destinationState, sourceState):
     moduleName = "module." + module
     moduleState = destination.getModuleState(sourceState, moduleName)
 

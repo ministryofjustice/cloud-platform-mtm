@@ -22,10 +22,10 @@ def migrate_module(
     """
     Migrate terraform modules
     """
-    destinationCheck = utility.checkFile(destination_path, "tfstate")
-    sourceCheck = utility.checkFile(source_path, "tfstate")
+    destination_check = utility.check_file(destination_path, "tfstate")
+    source_check = utility.check_file(source_path, "tfstate")
 
-    if destinationCheck and sourceCheck:
+    if destination_check and source_check:
         migrateModule.migrateModuleResources(module, destination_path, source_path)
 
 @app.command()
@@ -37,10 +37,10 @@ def migrate_resource(
     """
     Migrate terraform resource
     """
-    destinationCheck = utility.checkFile(destination_path, "tfstate")
-    sourceCheck = utility.checkFile(source_path, "tfstate")
+    destination_check = utility.check_file(destination_path, "tfstate")
+    source_check = utility.check_file(source_path, "tfstate")
 
-    if destinationCheck and sourceCheck and migrateResource.validate_resource_name(resource):
+    if destination_check and source_check and migrateResource.validate_resource_name(resource):
         migrateResource.migrate_resource(resource, destination_path, source_path)
 
 if __name__ == "__main__":

@@ -17,10 +17,10 @@ def migrate_resource(resource_name: str, destination_path, source_path):
     resource_state = get_resource_state(source_path, resource_name)
 
     destination_new_state = merge_resource_state(destination_path, resource_state, resource_name)
-    utility.saveState("core", destination_new_state)
+    utility.save_state("core", destination_new_state)
 
     source_new_state = delete_resource_state(source_path, resource_name)
-    utility.saveState("components", source_new_state)
+    utility.save_state("components", source_new_state)
 
 
 def get_resource_state(path, resource_name: str):

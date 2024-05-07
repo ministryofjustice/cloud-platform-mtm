@@ -1,27 +1,27 @@
 import json
 
-def getModuleState(path, moduleName: str):
-    print(f"Getting {moduleName} resources from components.tfstate")
+def getModuleState(path, module_name: str):
+    print(f"Getting {module_name} resources from components.tfstate")
     with open(path) as f:
-        destinationNewState = json.load(f)
+        destination_new_state = json.load(f)
 
-        destinationNewResources = []
+        destination_new_resources = []
 
-        for resource in destinationNewState["resources"]:
+        for resource in destination_new_state["resources"]:
             if "module" in resource:
-                if moduleName in resource['module']:
-                    destinationNewResources.append(resource)
+                if module_name in resource['module']:
+                    destination_new_resources.append(resource)
 
-        return destinationNewResources
+        return destination_new_resources
 
-def mergeModuleState(destinationState, addState: list, module: str):
+def mergeModuleState(destination_state, add_state: list, module: str):
     print(f"Merging {module} resources into core.tfstate")
-    with open(destinationState) as f:
-        destinationNewState = json.load(f)
-        coreResources = destinationNewState["resources"] + addState
+    with open(destination_state) as f:
+        destination_new_state = json.load(f)
+        core_resources = destination_new_state["resources"] + add_state
 
-        destinationNewState.pop("resources")
+        destination_new_state.pop("resources")
 
-        destinationNewState["resources"] = coreResources
+        destination_new_state["resources"] = core_resources
 
-        return(json.dumps(destinationNewState, indent=2))
+        return(json.dumps(destination_new_state, indent=2))

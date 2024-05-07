@@ -26,7 +26,7 @@ def migrate_module(
     source_check = utility.check_file(source_path, "tfstate")
 
     if destination_check and source_check:
-        migrateModule.migrateModuleResources(module, destination_path, source_path)
+        migrateModule.migrate_module_resources(module, destination_path, source_path)
 
 @app.command()
 def migrate_resource(

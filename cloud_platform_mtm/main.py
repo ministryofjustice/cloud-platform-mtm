@@ -31,14 +31,17 @@ def migrate_module(
 @app.command()
 def migrate_resource(
     resource: Annotated[str, typer.Argument(help="Resource to migrate")],
-    # source_path: Annotated[Path, typer.Argument(help="Path to source tfstate file")],
-    # destination_path: Annotated[Path, typer.Argument(help="Path to destination tfstate file")]
+    source_path: Annotated[Path, typer.Argument(help="Path to source tfstate file")],
+    destination_path: Annotated[Path, typer.Argument(help="Path to destination tfstate file")]
     ):
     """
-    Migrate terraform resources
+    Migrate terraform resource
     """
-    if (migrateResource.validateResourceName(resource)):
-        print("something")
+    destinationCheck = utility.checkFile(destination_path, "tfstate")
+    sourceCheck = utility.checkFile(source_path, "tfstate")
+
+    if destinationCheck and sourceCheck and migrateResource.validate_resource_name(resource):
+        migrateResource.migrate_resource(resource, destination_path, source_path)
 
 if __name__ == "__main__":
     app()

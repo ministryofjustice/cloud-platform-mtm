@@ -48,8 +48,8 @@ def delete_module_state(source_path, module_name: str):
         for resource in source_new_state['resources']:
             if "module" in resource:
                 if module_name not in resource['module']:
-                    dependencyRemovedResource = utility.remove_dependencies(resource, module_name)
-                    source_new_resources.append(dependencyRemovedResource)
+                    dependency_removed_resource = utility.remove_dependencies(resource, module_name)
+                    source_new_resources.append(dependency_removed_resource)
             else:
                 # Ensure we capture all resources that aren't modules
                 source_new_resources.append(resource)

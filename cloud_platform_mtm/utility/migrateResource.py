@@ -67,7 +67,7 @@ def delete_resource_state(source_path, resource_name):
 
         for resource in source_new_state["resources"]:
             if resource["type"] == type and resource["name"] == name:
-                print(f"Removing {resource["type"]}.{resource["name"]}")
+                print(f'Removing {resource["type"]}.{resource["name"]}')
             else:
                 dependency_removed_resource = utility.remove_dependencies(resource, resource_name)
                 source_new_resources.append(dependency_removed_resource)

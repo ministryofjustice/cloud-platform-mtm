@@ -39,7 +39,7 @@ def merge_module_state(destination_state, add_state: list, module: str):
         return(json.dumps(destination_new_state, indent=2))
 
 def delete_module_state(source_path, module_name: str):
-    print(f"Removing {module_name} resource from components.tfstate")
+    print(f"Removing {module_name} resources from components.tfstate")
     with open(source_path) as f:
         source_new_state = json.load(f)
 

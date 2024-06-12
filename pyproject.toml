@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cloud-platform-mtm"
-version = "2.0.1"
+version = "2.1.0"
 description = ""
 authors = ["Mike Bell <mike.bell1@digital.justice.gov.uk>"]
 readme = "README.md"

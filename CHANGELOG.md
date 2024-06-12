@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/ministryofjustice/cloud-platform-mtm/compare/v2.0.1...v2.1.0) (2024-06-12)
+
+
+### Features
+
+* option to remove module key from resource ([19e9f7a](https://github.com/ministryofjustice/cloud-platform-mtm/commit/19e9f7ac43e471a40a39aa2c756461253d76c503))
+
 ## [2.0.1](https://github.com/ministryofjustice/cloud-platform-mtm/compare/v2.0.0...v2.0.1) (2024-06-07)
 
 

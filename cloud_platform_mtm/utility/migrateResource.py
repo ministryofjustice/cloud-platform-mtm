@@ -13,10 +13,10 @@ def validate_resource_name(resource_name: str):
         print("Resource does not match expected pattern - resource_type.resource_name")
         raise typer.Exit(code=1)
 
-def migrate_resource(resource_name: str, destination_path, source_path):
+def migrate_resource(resource_name: str, destination_path, source_path, remove: bool):
     resource_state = get_resource_state(source_path, resource_name)
 
-    destination_new_state = merge_resource_state(destination_path, resource_state, resource_name)
+    destination_new_state = merge_resource_state(destination_path, resource_state, resource_name, remove)
     utility.save_state("core", destination_new_state)
 
     source_new_state = delete_resource_state(source_path, resource_name)
@@ -41,8 +41,12 @@ def get_resource_state(path, resource_name: str):
 
     return destination_new_resource
 
-def merge_resource_state(destination_path, resource_state, resource_name):
+def merge_resource_state(destination_path, resource_state, resource_name, remove: bool):
     print(f"Merging {resource_name}")
+
+    if remove:
+        for value in resource_state:
+            value.pop('module', None)
 
     with open(destination_path) as f:
         destination_new_state = json.load(f)

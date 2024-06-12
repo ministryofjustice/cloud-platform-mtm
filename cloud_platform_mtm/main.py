@@ -32,7 +32,8 @@ def migrate_module(
 def migrate_resource(
     resource: Annotated[str, typer.Argument(help="Resource to migrate")],
     source_path: Annotated[Path, typer.Argument(help="Path to source tfstate file")],
-    destination_path: Annotated[Path, typer.Argument(help="Path to destination tfstate file")]
+    destination_path: Annotated[Path, typer.Argument(help="Path to destination tfstate file")],
+    remove_module: Annotated[bool, typer.Option(help="Remove module key from resource")] = False,
     ):
     """
     Migrate terraform resource
@@ -41,7 +42,7 @@ def migrate_resource(
     source_check = utility.check_file(source_path, "tfstate")
 
     if destination_check and source_check and migrateResource.validate_resource_name(resource):
-        migrateResource.migrate_resource(resource, destination_path, source_path)
+        migrateResource.migrate_resource(resource, destination_path, source_path, remove_module)
 
 if __name__ == "__main__":
     app()

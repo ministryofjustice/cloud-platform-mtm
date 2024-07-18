@@ -30,3 +30,21 @@ Grab the wheel from releases and:
 ```
 mtm --help
 ```
+
+Migrate a module:
+
+```
+mtm migrate-module cert_manager $source $destination
+```
+
+Migrate a resource:
+
+```
+mtm migrate-module kubectl_manifest.prometheus_operator_crds $source $destination
+```
+
+Migrate a resource from a module:
+
+```
+mtm migrate-module kubectl_manifest.prometheus_operator_crds --remove-module $source $destination
+```

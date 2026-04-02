@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.1](https://github.com/ministryofjustice/cloud-platform-mtm/compare/v2.1.0...v2.1.1) (2025-03-26)
+
+
+### Documentation
+
+* Update readme with cli options ([5eb9f3d](https://github.com/ministryofjustice/cloud-platform-mtm/commit/5eb9f3d783028952ca2d4c403921645997ac3909))
+* Update readme with cli options ([600c010](https://github.com/ministryofjustice/cloud-platform-mtm/commit/600c01029236433de549cab19b5bfd5848fdc321))
+
 ## [2.1.0](https://github.com/ministryofjustice/cloud-platform-mtm/compare/v2.0.1...v2.1.0) (2024-06-12)
 
 
